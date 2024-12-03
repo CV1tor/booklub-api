@@ -1,0 +1,4 @@
+CREATE TABLE author (
+    id UUID PRIMARY KEY DEFAULT (UUID()),
+    name VARCHAR(150) NOT NULL
+)
