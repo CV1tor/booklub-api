@@ -2,6 +2,7 @@ package br.com.booklub.api.service;
 
 import br.com.booklub.api.domain.author.Author;
 import br.com.booklub.api.dto.author.AuthorDTO;
+import br.com.booklub.api.exception.AuthorNotFoundException;
 import br.com.booklub.api.repository.AuthorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
-    public void update(UUID id, AuthorDTO authorDTO) throws Exception {
+    public void update(UUID id, AuthorDTO authorDTO) {
         Author author = findById(id);
         author.setName(authorDTO.name());
 
@@ -36,15 +37,15 @@ public class AuthorService {
         return authorRepository.findByName(name);
     }
 
-    public void delete(UUID id) throws Exception {
+    public void delete(UUID id) {
         Author author = findById(id);
 
         authorRepository.delete(author);
     }
 
 
-    public Author findById(UUID id) throws Exception {
-        return authorRepository.findById(id).orElseThrow(() -> new Exception("Author not found."));
+    public Author findById(UUID id) {
+        return authorRepository.findById(id).orElseThrow(AuthorNotFoundException::new);
     }
 
 

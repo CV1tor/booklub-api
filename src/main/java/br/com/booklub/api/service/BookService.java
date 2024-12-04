@@ -4,6 +4,7 @@ import br.com.booklub.api.domain.author.Author;
 import br.com.booklub.api.domain.book.Book;
 import br.com.booklub.api.domain.book.BookGenre;
 import br.com.booklub.api.dto.book.BookDTO;
+import br.com.booklub.api.exception.BookNotFoundException;
 import br.com.booklub.api.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,13 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public Book get(UUID id) throws Exception {
+    public Book get(UUID id)  {
         Book book = findById(id);
 
         return book;
     }
 
-    public void delete(UUID id) throws Exception {
+    public void delete(UUID id)  {
         Book book = findById(id);
 
         bookRepository.delete(book);
@@ -52,8 +53,8 @@ public class BookService {
         return bookRepository.findByAuthorNameAndTitleAndGenre(name, title, genre);
     }
 
-    public Book findById(UUID id) throws Exception {
-        return bookRepository.findById(id).orElseThrow(() -> new Exception("Book not found."));
+    public Book findById(UUID id) {
+        return bookRepository.findById(id).orElseThrow(BookNotFoundException::new);
     }
 
 }
