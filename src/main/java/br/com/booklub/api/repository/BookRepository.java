@@ -16,13 +16,12 @@ import java.util.UUID;
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
 
-    Optional<Book> findById(String id);
 
     List<Book> findByGenre(BookGenre genre);
 
-    @Query("SELECT b from Book b where b.author.name like %:author%")
-    List<Book> findByAuthorName(String name);
-
-    @Query("SELECT b from Book b where b.title like %:title%")
-    List<Book> findByTitle(String title);
+    @Query("SELECT b from Book b WHERE " +
+            "(:name IS NULL OR b.author.name LIKE %:name%) " +
+            "AND (:title IS NULL OR b.title LIKE %:title%) " +
+            "AND (:genre IS NULL OR b.genre = :genre)")
+    List<Book> findByAuthorNameAndTitleAndGenre(String name, String title, BookGenre genre);
 }

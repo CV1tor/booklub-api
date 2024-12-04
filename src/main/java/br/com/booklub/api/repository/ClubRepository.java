@@ -10,8 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ClubRepository extends JpaRepository<Club, UUID> {
-    Optional<Club> findById(String id);
 
-    @Query("SELECT c from Club c WHERE c.book.title LIKE %:book%")
-    List<Club> findByBookTitle(String book);
+    @Query("SELECT c from Club c WHERE (:name IS NULL OR c.name LIKE %:name%) AND (:title IS NULL OR c.book.title LIKE %:title%)")
+    List<Club> findByNameAndBookTitle(String name, String title);
 }
