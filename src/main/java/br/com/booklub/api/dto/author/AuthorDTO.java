@@ -1,4 +1,4 @@
-package br.com.booklub.api.dto;
+package br.com.booklub.api.dto.author;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
